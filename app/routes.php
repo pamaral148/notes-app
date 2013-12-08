@@ -16,6 +16,9 @@ Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'HomeControl
 // login route
 Route::get('login', array('as' => 'login', 'uses' => 'AuthenticateController@getIndex'))->before('guest');
 
+// POST login
+Route::post('login', array('before' => 'csrf', 'uses' => 'AuthenticateController@postLogin'));
+
 // GET register form
 Route::get('register', array('as' => 'register', 'uses' => 'AuthenticateController@getRegister'));
 
@@ -24,3 +27,10 @@ Route::post('register', array('before' => 'csrf', 'uses' => 'AuthenticateControl
 
 // GET activation
 Route::get('activation/{token}', array('uses' => 'AuthenticateController@getActivate'));
+
+// Logout route 
+Route::get('logout', array('as' => 'logout', function () {
+    Auth::logout();
+    return Redirect::route('login')
+               ->with('message', 'You are successfully logged out.');
+}))->before('auth');

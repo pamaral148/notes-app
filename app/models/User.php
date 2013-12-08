@@ -24,14 +24,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @return mixed
 	 */
-        public static $registerRules = array(
+        public static $registrationRules = array(
             'email' => 'required|email|unique:users',
             'password' => 'required|alpha_dash|between:5,20'
         );
         
-	public static function validateRegister($data)
+        public static $loginRules = array(
+            'email' => 'required|email',
+            'password' => 'required|alpha_dash|between:5,20'
+        );
+        
+        public static function registrationValidate($data)
         {
-            return Validator::make($data, self::$registerRules);
+            return Validator::make($data, self::$registrationRules);
+        }
+        
+        public static function loginValidate($data)
+        {
+            return Validator::make($data, self::$loginRules);
         }
         
         public function getAuthIdentifier()

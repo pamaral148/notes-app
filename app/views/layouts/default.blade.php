@@ -41,12 +41,18 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active">{{ link_to_route('home', 'Home') }}</li>
                         <li><a href="#">Test</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li>{{ link_to_route('login', 'Login') }}</li>
+                        <li>
+                            @if(Auth::check())
+                                {{ link_to_route('logout', 'Sign out') }}
+                            @else
+                                {{ link_to_route('login', 'Sign in') }}
+                            @endif
+                        </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- ./navigation -->
