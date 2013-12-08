@@ -68,5 +68,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
-
+        
+        public static function getLockedResponse($user)
+        {
+            if($user->active == 0) {
+                $response = Redirect::route('login');
+            } else {
+                $credentials = array('email' => $user->email);
+                $response = Password::remind($credentials, function($message, $user) {
+                     $message->subject('Someone has tried to access your account. Your password has been reset.');
+                });     
+            }
+            
+            return $response;
+        }
 }

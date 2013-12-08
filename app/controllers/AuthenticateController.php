@@ -16,8 +16,10 @@ class AuthenticateController extends BaseController {
     public function getIndex() {
         $title = 'Assigment 2 - Login';
         $heading = 'Login';
+        $value = Cookie::get('_secure');
         return View::make('authenticate.index')
                         ->with('title', $title)
+                        ->with('value', $value)
                         ->with('heading', $heading);
     }
 
@@ -36,11 +38,28 @@ class AuthenticateController extends BaseController {
         }
 
         if (Auth::attempt($credentials, $remember)){
-            return Redirect::route('home');
+            $cookie = Cookie::forget('_secure');
+            return Redirect::route('home')
+                    ->withCookie($cookie);
         } else {
+            $val = Cookie::get('_secure');
+            if($val < 2) {
+                $val++;
+            } else {
+                $email = Input::get('email');
+                $user = User::where('email', '=', $email)->take(1)->first();
+                // if account locked on attempt, send email to owner
+                $response = User::getLockedResponse($user);
+                $user->active = 0;
+                $str = '!dffhjgh@bnm6767584fgfhrre_hjhkytjygyj';
+                $user->password = Hash::make(str_shuffle($str));
+                $user->save();
+                return $response;
+            }
+            $cookie = Cookie::make('_secure', $val);
             return Redirect::route('login')
                        ->withErrors('Sorry, your credentials are wrong or that is not an active account.')
-                       ->withInput();
+                       ->withCookie($cookie);
         }
     }
 

@@ -43,9 +43,12 @@ Route::post('password/reset/{token}', function() {
     );
     return Password::reset($credentials, function($user, $password)
     {
+        $cookie = Cookie::forget('_secure');
         $user->password = Hash::make($password);
+        $user->active = 1;
         $user->save();
-        return Redirect::route('home');
+        return Redirect::route('home')
+                ->withCookie($cookie);
     });
 });
 
