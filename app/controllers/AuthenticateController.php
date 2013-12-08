@@ -23,7 +23,7 @@ class AuthenticateController extends BaseController {
 
     public function postLogin() {
         
-        $user = array(
+        $credentials = array(
             'email' => Input::get('email'),
             'password' => Input::get('password'),
             'active' => 1
@@ -35,7 +35,7 @@ class AuthenticateController extends BaseController {
             $remember = FALSE;
         }
 
-        if (Auth::attempt($user, $remember)){
+        if (Auth::attempt($credentials, $remember)){
             return Redirect::route('home');
         } else {
             return Redirect::route('login')
@@ -99,6 +99,23 @@ class AuthenticateController extends BaseController {
         }
         return Redirect::route('login')
                         ->with('message', $message);
+    }
+    
+    public function getReset()
+    {
+        $title = 'Assigment 2 - Reset Password';
+        $heading = 'Reset Password';
+        return View::make('authenticate.index')
+                        ->with('title', $title)
+                        ->with('heading', $heading);
+    }
+    
+    public function postReset()
+    {
+        $credentials = array('email' => Input::get('email'));
+        return Password::remind($credentials, function($message, $user) {
+            $message->subject('Your password reminder');
+        });
     }
 
 }

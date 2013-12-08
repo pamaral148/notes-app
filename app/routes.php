@@ -25,6 +25,34 @@ Route::get('register', array('as' => 'register', 'uses' => 'AuthenticateControll
 // POST register route
 Route::post('register', array('before' => 'csrf', 'uses' => 'AuthenticateController@postRegister'));
 
+// GET reset password
+Route::get('reset', array('as' => 'reset', 'uses' => 'AuthenticateController@getReset'));
+
+// GET reset password form
+Route::get('password/reset/{token}', function($token){
+    return View::make('authenticate.reset')
+            ->with('token', $token)
+            ->with('title', 'Password Reset');
+});
+
+Route::post('password/reset/{token}', function() {
+    $credentials = array(
+        'email' => Input::get('email'),
+        'password' => Input::get('password'),
+        'password_confirmation' => Input::get('password_confirmation')
+    );
+    return Password::reset($credentials, function($user, $password)
+    {
+        $user->password = Hash::make($password);
+        $user->save();
+        return Redirect::route('home');
+    });
+});
+
+
+// POST reset password
+Route::post('reset', array('before' => 'csrf', 'uses' => 'AuthenticateController@postReset'));
+
 // GET activation
 Route::get('activation/{token}', array('uses' => 'AuthenticateController@getActivate'));
 
