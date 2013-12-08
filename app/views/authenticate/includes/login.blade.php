@@ -1,4 +1,4 @@
-<form class="form-inline" role="form">
+<form role="form">
   <div class="form-group">
     <label class="sr-only" for="email">Email address</label>
     <input type="email" name="login_email" class="form-control" id="login_email" placeholder="Enter email">
@@ -14,4 +14,5 @@
   </div>
   <button type="submit" class="btn btn-default">Sign in</button>
 </form>
+
 

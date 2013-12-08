@@ -1,12 +1,18 @@
 @extends('layouts.default')
 @section('content')
-    <h2>{{ $heading }}</h2>
-    <br>
     @if(Request::is('register'))
-        @include('authenticate.includes.register')
+        <div class="container form-container">
+            <h2>{{ $heading }}</h2>
+            <br>
+            @include('authenticate.includes.register')
+        </div>
     @else 
-        @include('authenticate.includes.login')
-        <p>Not a registered user? {{ link_to_route('register', 'Register now!') }}</p>
+        <div class="container form-container">
+            <h2>{{ $heading }}</h2>
+            <br>
+            @include('authenticate.includes.login')
+            <p>Not a registered user? {{ link_to_route('register', 'Register now!') }}</p>
+        </div>
    @endif
 @stop
 

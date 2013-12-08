@@ -1,4 +1,4 @@
-{{ Form::open(array('url' => 'register', 'method' => 'POST', 'class' => "form-inline", 'role'=> 'form')) }}
+{{ Form::open(array('url' => 'register', 'method' => 'POST', 'role'=> 'form')) }}
   <div class="form-group">
     <label class="sr-only" for="email">Email address</label>
     <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
@@ -7,7 +7,7 @@
     <label class="sr-only" for="password">Password</label>
     <input type="password" name="password" class="form-control" id="password" placeholder="Password">
   </div>
-  <div class="checkbox">
+  <div class="form-group">
      {{ $captcha }}
   </div>
   <button type="submit" class="btn btn-default">Register</button>

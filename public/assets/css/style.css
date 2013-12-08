@@ -8,3 +8,10 @@ and open the template in the editor.
     Author     : pamaral
 */
 
+.form-container
+{
+    width: 50%;
+    border: 1px solid black;
+    padding: 15px;
+    border-radius: 10px;
+}

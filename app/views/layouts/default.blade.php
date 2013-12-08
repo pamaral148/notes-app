@@ -51,7 +51,7 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- ./navigation -->
             <br>
-            <h1>2920 Notes App</h1>
+            <h1 class="text-center">2920 Notes App</h1>
             <br>
             <div class="flash"></div>
             @yield('content')
