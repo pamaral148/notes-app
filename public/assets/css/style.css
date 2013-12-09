@@ -10,8 +10,13 @@ and open the template in the editor.
 
 .form-container
 {
-    width: 50%;
-    border: 1px solid black;
+    width: 40%;
+   /* border: 1px solid black; */
     padding: 15px;
     border-radius: 10px;
+}
+
+.table-container
+{
+    width: 58%;
 }

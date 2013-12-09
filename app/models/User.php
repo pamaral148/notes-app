@@ -44,6 +44,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             return Validator::make($data, self::$loginRules);
         }
         
+        public function notes()
+        {
+            return $this->hasMany('Note');
+        }
+        
         public function getAuthIdentifier()
 	{
 		return $this->getKey();

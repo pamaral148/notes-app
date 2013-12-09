@@ -65,3 +65,13 @@ Route::get('logout', array('as' => 'logout', function () {
     return Redirect::route('login')
                ->with('message', 'You are successfully logged out.');
 }))->before('auth');
+
+Route::group(array('prefix' => 'notes'), function() {
+
+    // POST new note
+    Route::post('create', array('before' => 'csrf', 'uses' => 'NoteController@postAdd'));
+    
+    // GET update
+    Route::get('update', array('as' => 'note.update', 'before' => 'auth', 'uses' => 'NoteController@getNote'));
+    
+});

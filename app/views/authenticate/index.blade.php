@@ -1,8 +1,5 @@
 @extends('layouts.default')
 @section('content')
-    @if(isset($message))
-        {{ $message }}
-    @endif
     @if(Request::is('register'))
         <div class="container form-container">
             <h2>{{ $heading }}</h2>

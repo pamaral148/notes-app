@@ -23,8 +23,11 @@ class HomeController extends BaseController {
         public function index()
         {
             $title = 'Assignment 2 - Home';
+            $user_id = Auth::user()->id;
+            $notes = User::find($user_id)->notes;
             return View::make('home.index')
-                        ->with('title', $title);
+                        ->with('title', $title)
+                        ->with('notes', $notes);
         }
 
 }

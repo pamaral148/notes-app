@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active">{{ link_to_route('home', 'Home') }}</li>
-                        <li><a href="#">Test</a></li>
+                        
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -59,7 +59,14 @@
             <br>
             <h1 class="text-center">2920 Notes App</h1>
             <br>
-            <div class="flash"></div>
+            <div class="flash">
+                @if(isset($message))
+                    {{ $message }}
+                @endif
+                @foreach($errors as $error)
+                    {{ $error }}<br>
+                @endforeach
+            </div>
             @yield('content')
             <!-- Bootstrap core JavaScript
             ================================================== -->

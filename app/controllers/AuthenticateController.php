@@ -16,10 +16,8 @@ class AuthenticateController extends BaseController {
     public function getIndex() {
         $title = 'Assigment 2 - Login';
         $heading = 'Login';
-        $value = Cookie::get('_secure');
         return View::make('authenticate.index')
                         ->with('title', $title)
-                        ->with('value', $value)
                         ->with('heading', $heading);
     }
 
@@ -58,7 +56,6 @@ class AuthenticateController extends BaseController {
             }
             $cookie = Cookie::make('_secure', $val);
             return Redirect::route('login')
-                       ->withErrors('Sorry, your credentials are wrong or that is not an active account.')
                        ->withCookie($cookie);
         }
     }
