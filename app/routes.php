@@ -66,6 +66,7 @@ Route::get('logout', array('as' => 'logout', function () {
                ->with('message', 'You are successfully logged out.');
 }))->before('auth');
 
+// Notes routes
 Route::group(array('prefix' => 'notes'), function() {
 
     // POST new note
@@ -73,5 +74,8 @@ Route::group(array('prefix' => 'notes'), function() {
     
     // GET update
     Route::get('update', array('as' => 'note.update', 'before' => 'auth', 'uses' => 'NoteController@getNote'));
+    
+    // POST update
+    Route::post('update', array('before' => 'csrf', 'uses' => 'NoteController@postUpdate'));
     
 });
