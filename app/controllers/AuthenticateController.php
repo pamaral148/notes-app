@@ -43,7 +43,7 @@ class AuthenticateController extends BaseController {
             mkdir($path);
             foreach($images as $image) {
                 $file = fopen($path . '/' . $image->id . '.' . $image->extension, 'w');
-                fwrite($file, base64_decode($image->contents));
+                fwrite($file, $image->contents);
                 fclose($file);
             }
             return Redirect::route('home')

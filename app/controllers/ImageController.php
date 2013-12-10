@@ -34,8 +34,7 @@ class ImageController extends BaseController
             $image->caption = Input::get('caption');
             $image->mime = Input::file('image')->getMimeType();
             $image->extension = Input::file('image')->getClientOriginalExtension();
-            $contents = file_get_contents(Input::file('image'));
-            $image->contents = $contents;
+            $image->contents = Input::file('image');
             $image->save();
             Input::file('image')->move('./tmp_' . $user_id, $image->id . '.' . $image->extension);
             
