@@ -81,3 +81,17 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+App::before(function($request)
+{
+    $cookie = Cookie::get('_active');
+    if($cookie == NULL) {
+        return Redirect::route('logout');
+    }
+});
+
+App::after(function($request, $response)
+{
+    $minutes = 20;
+    return $response->withCookie(Cookie::make('_active', TRUE, $minutes));
+});
