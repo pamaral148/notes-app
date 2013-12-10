@@ -24,24 +24,42 @@ class LinkController extends BaseController
         } else {
             $input = Input::except('_token');
             foreach($input as $key => $value) {
-              if(($key == 'url') &&
-                 ($value != NULL)
-              ){
-                    $user_id = Auth::user()->id;
-                    $link = new Link();
-                    $link->user_id = $user_id;
-                    $link->url = $value;
-                    $link->save();
+              if($key == 'url'){
+                 $user_id = Auth::user()->id;
+                 $this->createLink($value, $user_id);
               } 
-              elseif($key != 'url') {
-                  $link = Link::find($key);
-                  $link->url = $value;
-                  $link->save();
+              else {
+                  $this->updateLink($key, $value);
               }
               
             }
             return Redirect::route('home')
                   ->with('message', 'Link successfully added.');
         }
+    }
+    
+    private function createLink($value, $user_id)
+    {
+        if($value == NULL) {
+            return FALSE;
+        } else {
+            $link = new Link();
+            $link->user_id = $user_id;
+            $link->url = $value;
+            $link->save();
+            return TRUE;
+        }
+    }
+
+    private function updateLink($link_id, $value)
+    {
+        $link = Link::find($link_id);
+        if($value == NULL) {
+            $link->delete();
+        } else {
+            $link->url = $value;
+            $link->save();
+        }
+        return TRUE;
     }
 }
