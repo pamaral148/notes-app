@@ -61,6 +61,18 @@ Route::get('activation/{token}', array('uses' => 'AuthenticateController@getActi
 
 // Logout route 
 Route::get('logout', array('as' => 'logout', function () {
+    $id = Auth::user()->id;
+    $dir = './tmp_' . $id;
+    $tmpFiles = scandir($dir);
+    foreach($tmpFiles as $file) {
+        if(($file == '.') ||
+           ($file == '..')
+        ) {
+            continue;
+        }    
+        unlink($file);
+    }       
+    rmdir($dir);
     Auth::logout();
     return Redirect::route('login')
                ->with('message', 'You are successfully logged out.');
@@ -77,5 +89,13 @@ Route::group(array('prefix' => 'notes'), function() {
     
     // POST update
     Route::post('update', array('before' => 'csrf', 'uses' => 'NoteController@postUpdate'));
+    
+});
+
+// Images routes
+Route::group(array('prefix' => 'images'), function() {
+   
+    // POST new image
+    Route::post('upload', array('before' => 'csrf', 'uses' => 'ImageController@postUpload'));
     
 });

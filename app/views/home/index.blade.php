@@ -17,7 +17,10 @@
     </div>
   <div class="tab-pane" id="tbd">...</div>
   <div class="tab-pane" id="links">...</div>
-  <div class="tab-pane" id="images">...</div>
+  <div class="tab-pane" id="images">
+      @include('home.includes.image_post')
+      @include('home.includes.image_list')
+  </div>
 </div>
 @stop
 
