@@ -99,3 +99,11 @@ Route::group(array('prefix' => 'images'), function() {
     Route::post('upload', array('before' => 'csrf', 'uses' => 'ImageController@postUpload'));
     
 });
+
+// Links routes
+Route::group(array('prefix' => 'links'), function() {
+   
+    // POST new image
+    Route::post('post', array('before' => 'csrf', 'uses' => 'LinkController@postLinks'));
+    
+});

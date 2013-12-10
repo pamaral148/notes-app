@@ -112,8 +112,8 @@ class AuthenticateController extends BaseController {
             });
         }
         $message = 'Your account was created and is waiting activation. Please check you email for activation instructions.';
-        return Redirect::route('login')
-                        ->with('message', $message);
+        return View::make('authenticate.thankyou')
+                        ->with('email', $user->email);
     }
 
     public function getActivate($token) {

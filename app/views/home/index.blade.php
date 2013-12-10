@@ -16,7 +16,9 @@
         @include('home.includes.notes_table')
     </div>
   <div class="tab-pane" id="tbd">...</div>
-  <div class="tab-pane" id="links">...</div>
+  <div class="tab-pane" id="links">
+      @include('home.includes.links')
+  </div>
   <div class="tab-pane" id="images">
       @include('home.includes.image_post')
       @include('home.includes.image_list')
