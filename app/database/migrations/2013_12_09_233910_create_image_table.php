@@ -18,7 +18,9 @@ class CreateImageTable extends Migration {
                         $table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
                         $table->text('caption', 45);
-                        $table->binary('image');
+                        $table->text('mime', 45);
+                        $table->text('extension', 45);
+                        $table->binary('contents');
 			$table->timestamps();
 		});
 	}

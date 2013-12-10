@@ -70,7 +70,7 @@ Route::get('logout', array('as' => 'logout', function () {
         ) {
             continue;
         }    
-        unlink($file);
+        unlink($dir . '/' . $file);
     }       
     rmdir($dir);
     Auth::logout();

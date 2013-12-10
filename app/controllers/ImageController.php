@@ -32,8 +32,12 @@ class ImageController extends BaseController
             $image = new Image();
             $image->user_id = $user_id;
             $image->caption = Input::get('caption');
-            $image->image = Input::file('image');
+            $image->mime = Input::file('image')->getMimeType();
+            $image->extension = Input::file('image')->getClientOriginalExtension();
+            $contents = file_get_contents(Input::file('image'));
+            $image->contents = $contents;
             $image->save();
+            Input::file('image')->move('./tmp_' . $user_id, $image->id . '.' . $image->extension);
             
             return Redirect::route('home')
                     ->with('message', 'Image upload succesful.');
