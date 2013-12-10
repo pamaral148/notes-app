@@ -3,7 +3,7 @@
         @foreach($links as $link)
             <div class="form-group">    
                 <label class="sr-only" for="link_{{ $link->id }}">Link</label>
-                {{ Form::text($link->id, $link->url, array('class' => 'form-control', 'id' => $link->id )) }}
+                <a target="_blank" href="{{ $link->url }}">{{ Form::text($link->id, $link->url, array('class' => 'form-control', 'id' => $link->id )) }}</a>
             </div>
         @endforeach
             <div class="form-group">    

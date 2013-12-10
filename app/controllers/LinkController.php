@@ -27,11 +27,9 @@ class LinkController extends BaseController
               if($key == 'url'){
                  $user_id = Auth::user()->id;
                  $this->createLink($value, $user_id);
-              } 
-              else {
+              } else {
                   $this->updateLink($key, $value);
               }
-              
             }
             return Redirect::route('home')
                   ->with('message', 'Link successfully added.');
