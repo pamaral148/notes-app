@@ -27,11 +27,19 @@ class HomeController extends BaseController {
             $notes = User::find($user_id)->notes;
             $links = User::find($user_id)->links;
             $tbds = User::find($user_id)->tbds;
+            $images = Image::where('user_id',$user_id)->get();
+            
+            foreach ($images as $image){
+            	file_put_contents("tmp/". $image->id . "." . $image->extension, $image->contents);
+            }
+            
             return View::make('home.index')
                         ->with('title', $title)
                         ->with('notes', $notes)
                         ->with('tbds', $tbds)
-                        ->with('links', $links);
+                        ->with('links', $links)
+            			->with('images', $images);
+            		
         }
 
 }
