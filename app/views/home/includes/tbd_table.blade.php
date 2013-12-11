@@ -4,6 +4,7 @@
             <tr>
             <th>Title</th>
             <th>Text</th>
+            <th></th>
             </tr>
         </thead>
         <tbody>
