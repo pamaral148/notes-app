@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.0.*",
-		"recaptcha/php5": "dev-master"
+		"recaptcha/php5": "v1.0.0"
 	},
 	"autoload": {
 		"classmap": [
@@ -33,4 +33,6 @@
 		"preferred-install": "dist"
 	},
 	"minimum-stability": "dev"
+	
+
 }
