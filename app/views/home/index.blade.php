@@ -15,7 +15,10 @@
         @include('home.includes.notes_post')
         @include('home.includes.notes_table')
     </div>
-  <div class="tab-pane" id="tbd">...</div>
+    <div class="tab-pane" id="tbd">
+        @include('home.includes.tbd_post')
+        @include('home.includes.tbd_table')
+    </div>
   <div class="tab-pane" id="links">
       @include('home.includes.links')
   </div>

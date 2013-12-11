@@ -107,3 +107,17 @@ Route::group(array('prefix' => 'links'), function() {
     Route::post('post', array('before' => 'csrf', 'uses' => 'LinkController@postLinks'));
     
 });
+
+// Tbd routes
+Route::group(array('prefix' => 'tbd'), function() {
+
+    // POST new note
+    Route::post('create', array('before' => 'csrf', 'uses' => 'TbdController@postAdd'));
+    
+    // GET update
+    Route::get('update', array('as' => 'tbd.update', 'before' => 'auth', 'uses' => 'TbdController@getTbd'));
+    
+    // POST update
+    Route::post('update', array('before' => 'csrf', 'uses' => 'TbdController@postUpdate'));
+    
+});
