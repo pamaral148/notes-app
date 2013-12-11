@@ -10,74 +10,96 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-// home route
-Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'HomeController@index'));
 
-// login route
-Route::get('login', array('as' => 'login', 'uses' => 'AuthenticateController@getIndex'))->before('guest');
+// Register Group
+Route::group(array('prefix' => 'register'), function() {
 
-// POST login
-Route::post('login', array('before' => 'csrf', 'uses' => 'AuthenticateController@postLogin'));
+	// GET register form
+	Route::get('register', array('as' => 'register', 'uses' => 'AuthenticateController@getRegister'));
 
-// GET register form
-Route::get('register', array('as' => 'register', 'uses' => 'AuthenticateController@getRegister'));
-
-// POST register route
-Route::post('register', array('before' => 'csrf', 'uses' => 'AuthenticateController@postRegister'));
-
-// GET reset password
-Route::get('reset', array('as' => 'reset', 'uses' => 'AuthenticateController@getReset'));
-
-// GET reset password form
-Route::get('password/reset/{token}', function($token){
-    return View::make('authenticate.reset')
-            ->with('token', $token)
-            ->with('title', 'Password Reset');
+	// POST register route
+	Route::post('register', array('before' => 'csrf', 'uses' => 'AuthenticateController@postRegister'));
 });
-
-Route::post('password/reset/{token}', function() {
-    $credentials = array(
-        'email' => Input::get('email'),
-        'password' => Input::get('password'),
-        'password_confirmation' => Input::get('password_confirmation')
-    );
-    return Password::reset($credentials, function($user, $password)
-    {
-        $cookie = Cookie::forget('_secure');
-        $user->password = Hash::make($password);
-        $user->active = 1;
-        $user->save();
-        return Redirect::route('home')
-                ->withCookie($cookie);
-    });
-});
-
-
-// POST reset password
-Route::post('reset', array('before' => 'csrf', 'uses' => 'AuthenticateController@postReset'));
 
 // GET activation
 Route::get('activation/{token}', array('uses' => 'AuthenticateController@getActivate'));
 
-// Logout route 
-Route::get('logout', array('as' => 'logout', function () {
-    $id = Auth::user()->id;
-    $dir = './tmp_' . $id;
-    $tmpFiles = scandir($dir);
-    foreach($tmpFiles as $file) {
-        if(($file == '.') ||
-           ($file == '..')
-        ) {
-            continue;
-        }    
-        unlink($dir . '/' . $file);
-    }       
-    rmdir($dir);
-    Auth::logout();
-    return Redirect::route('login')
-               ->with('message', 'You are successfully logged out.');
-}))->before('auth');
+// Login Group
+Route::group(array('prefix' => 'login'), function() {
 
+	// GET Login 
+	Route::get('/', array('as' => 'login', 'uses' => 'AuthenticateController@getIndex'))->before('guest');
+	
+	// POST login
+	Route::post('/', array('before' => 'csrf', 'uses' => 'AuthenticateController@postLogin'));
+});
+
+// Reset Group
+Route::group(array('prefix' => 'reset'), function() {
+
+	// GET reset password
+	Route::get('/', array('as' => 'reset', 'uses' => 'AuthenticateController@getReset'));
+
+	// POST reset password
+	Route::post('/', array('before' => 'csrf', 'uses' => 'AuthenticateController@postReset'));
+});
+
+
+// Reset reset password
+Route::group(array('prefix' => 'password/reset/{token}'), function() {
+
+	// GET reset password form
+	Route::get('/', function($token){
+	    return View::make('authenticate.reset')
+	            ->with('token', $token)
+	            ->with('title', 'Password Reset');
+	});
+
+	//POST verify the new credintial 
+	Route::post('/', function() {
+	    $credentials = array(
+	        'email' => Input::get('email'),
+	        'password' => Input::get('password'),
+	        'password_confirmation' => Input::get('password_confirmation')
+	    );
+	    return Password::reset($credentials, function($user, $password)
+	    {
+	        $cookie = Cookie::forget('_secure');
+	        $user->password = Hash::make($password);
+	        $user->active = 1;
+	        $user->save();
+	        return Redirect::route('home')
+	                ->withCookie($cookie);
+	    });
+	});
+});
+
+// Logout route
+Route::get('logout', array('as' => 'logout', function () {
+	$id = Auth::user()->id;
+	// delete the dir before log out -----
+	$dir = './tmp/' . $id;
+	$tmpFiles = scandir($dir);
+	foreach($tmpFiles as $file) {
+		if(($file == '.') ||
+		($file == '..')
+		) {
+			continue;
+		}
+		unlink($dir . '/' . $file);
+	}
+	rmdir($dir);
+	//-------------------------------------
+	Auth::logout();
+	return Redirect::route('login')
+	->with('message', 'You are successfully logged out.');
+}))->before('auth');
+	
+
+
+// home route
+Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'HomeController@index'));
+	
 // Notes routes
 Route::group(array('prefix' => 'notes'), function() {
 

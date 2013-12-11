@@ -38,14 +38,7 @@ class AuthenticateController extends BaseController {
         if (Auth::attempt($credentials, $remember)){
             $cookie = Cookie::forget('_secure');
             $id = Auth::user()->id;
-            $path = './tmp_' . $id;
-            $images = User::find($id)->images;
-            mkdir($path);
-            foreach($images as $image) {
-                $file = fopen($path . '/' . $image->id . '.' . $image->extension, 'w');
-                fwrite($file, $image->contents);
-                fclose($file);
-            }
+           
             return Redirect::route('home')
                     ->withCookie($cookie);
         } else {

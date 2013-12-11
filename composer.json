@@ -6,6 +6,7 @@
 	"require": {
 		"laravel/framework": "4.0.*",
 		"recaptcha/php5": "v1.0.0"
+		
 	},
 	"autoload": {
 		"classmap": [
