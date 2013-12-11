@@ -11,6 +11,7 @@
             <tr>
                 <td>{{ link_to_route('note.update', $note->title, array('id' => $note->id)) }}</td>
                 <td>{{ $note->description }}</td>
+                <td><button class='btn btn-sm btn-danger'>{{ link_to_route('note.delete', 'Delete', array('id' => $note->id)) }}</button></td>
             </tr>
             @endforeach
         </tbody>

@@ -62,4 +62,13 @@ class NoteController extends BaseController
                 ->with('message', 'Note \'' . $note->title . '\' successfully updated.');
         }
     }
+    
+    public function deleteNote()
+    {
+        $id = Input::get('id');
+        $note = Note::find($id);
+        $note->delete();
+        return Redirect::route('home')
+                ->with('message', 'Note \'' . $note->title . '\' successfully deleted.');
+    }
 }

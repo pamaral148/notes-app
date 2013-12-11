@@ -90,6 +90,9 @@ Route::group(array('prefix' => 'notes'), function() {
     // POST update
     Route::post('update', array('before' => 'csrf', 'uses' => 'NoteController@postUpdate'));
     
+    // GET delete note
+    Route::get('delete', array('as' => 'note.delete', 'before', 'auth', 'uses' => 'NoteController@deleteNote'));
+    
 });
 
 // Images routes
@@ -119,5 +122,8 @@ Route::group(array('prefix' => 'tbd'), function() {
     
     // POST update
     Route::post('update', array('before' => 'csrf', 'uses' => 'TbdController@postUpdate'));
+    
+    // GET delete tbd
+    Route::get('delete', array('as' => 'tbd.delete', 'before', 'auth', 'uses' => 'TbdController@deleteTbd'));
     
 });

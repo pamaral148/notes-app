@@ -20,3 +20,9 @@ and open the template in the editor.
 {
     width: 58%;
 }
+
+.btn a
+{
+    color: white;
+    text-decoration: none;
+}

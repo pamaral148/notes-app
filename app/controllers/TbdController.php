@@ -62,4 +62,13 @@ class TbdController extends BaseController
                 ->with('message', 'Tbd \'' . $tbd->title . '\' successfully updated.');
         }
     }
+    
+    public function deleteTbd()
+    {
+        $id = Input::get('id');
+        $tbd = Tbd::find($id);
+        $tbd->delete();
+        return Redirect::route('home')
+                ->with('message', 'Tbd \'' . $tbd->title . '\' successfully deleted.');
+    }
 }
