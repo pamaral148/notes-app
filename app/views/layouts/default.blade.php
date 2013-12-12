@@ -26,47 +26,71 @@
 
     <body>
         <div class="container">
-            <br>
-            <div class="navbar navbar-default" role="navigation">
+            <header>
+	            <h1 class ="pull-left">2920 Notes App</h1>
+            
+<!--             <div class="navbar navbar-default" role="navigation"> -->
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ URL::route('home') }}">2920 Notes App</a>
-                </div>
+<!--                 <div class="navbar-header"> -->
+<!--                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> -->
+<!--                         <span class="sr-only">Toggle navigation</span> -->
+<!--                         <span class="icon-bar"></span> -->
+<!--                         <span class="icon-bar"></span> -->
+<!--                         <span class="icon-bar"></span> -->
+<!--                     </button> -->
+<!--                     <a class="navbar-brand" href="{{ URL::route('home') }}">2920 Notes App</a> -->
+<!--                 </div> -->
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active">{{ link_to_route('home', 'Home') }}</li>
+<!--                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
+<!--                     <ul class="nav navbar-nav"> -->
+<!--                         <li class="active">{{ link_to_route('home', 'Home') }}</li> -->
                         
-                    </ul>
-
+<!--                     </ul> -->
+					<br />
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
+                        <li class = "lead">
                             @if(Auth::check())
                                 {{ link_to_route('logout', 'Sign out') }}
-                            @else
-                                {{ link_to_route('login', 'Sign in') }}
                             @endif
                         </li>
                     </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- ./navigation -->
-            <br>
-            <h1 class="text-center">2920 Notes App</h1>
-            <br>
-            <div class="flash">
-                @if(isset($message))
-                    {{ $message }}
-                @endif
-                @foreach($errors as $error)
-                    {{ $error }}<br>
-                @endforeach
+          	</header>
+          	<br class = "clearfix"/>
+      <!--           </div><!-- /.navbar-collapse -->
+      <!--      </div><!-- ./navigation -->
+		   <br class = "clearfix"/>
+		   <br class = "clearfix"/>
+            <div class="container messages clearfix">
+	            @if (Session::has('message'))
+					<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<p>{{ Session::get('message')}}</p>
+					</div>
+			  	@endif
+				@if ($errors->has())
+					<div class="alert alert-danger alert-dismissable">
+					  	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<ul class="list-unstyled">
+							@foreach( $errors->all() as $message )
+					          <li>{{ $message }}</li>
+					        @endforeach
+						</ul>
+			  		</div>
+				@endif
+	
+				@if (Session::has('error'))
+					<div class="alert alert-danger alert-dismissable">
+				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ trans(Session::get('reason')) }}
+					</div>
+				@elseif (Session::has('success'))
+			    		<div class="alert alert-success alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			    			An e-mail with the password reset has been sent.
+			    		</div>
+				@endif	
             </div>
+           
             @yield('content')
             <!-- Bootstrap core JavaScript
             ================================================== -->

@@ -15,10 +15,10 @@
 Route::group(array('prefix' => 'register'), function() {
 
 	// GET register form
-	Route::get('register', array('as' => 'register', 'uses' => 'AuthenticateController@getRegister'));
+	Route::get('/', array('as' => 'register', 'uses' => 'AuthenticateController@getRegister'));
 
 	// POST register route
-	Route::post('register', array('before' => 'csrf', 'uses' => 'AuthenticateController@postRegister'));
+	Route::post('/', array('before' => 'csrf', 'uses' => 'AuthenticateController@postRegister'));
 });
 
 // GET activation
@@ -64,12 +64,12 @@ Route::group(array('prefix' => 'password/reset/{token}'), function() {
 	    );
 	    return Password::reset($credentials, function($user, $password)
 	    {
-	        $cookie = Cookie::forget('_secure');
 	        $user->password = Hash::make($password);
 	        $user->active = 1;
+	        $user->attempt = 0;
 	        $user->save();
-	        return Redirect::route('home')
-	                ->withCookie($cookie);
+	        return Redirect::route('login')
+	               ->with('message', 'Your password was upate successfully!');
 	    });
 	});
 });

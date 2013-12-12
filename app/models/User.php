@@ -26,12 +26,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
         public static $registrationRules = array(
             'email' => 'required|email|unique:users',
-            'password' => 'required|alpha_dash|between:5,20'
+            'password' => 'required|alpha_dash|confirmed|between:6,20'
         );
         
         public static $loginRules = array(
             'email' => 'required|email',
-            'password' => 'required|alpha_dash|between:5,20'
+            'password' => 'required|alpha_dash|between:6,20'
         );
         
         public static function registrationValidate($data)
@@ -92,7 +92,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         public static function getLockedResponse($user)
         {
             if($user->active == 0) {
-                $response = Redirect::route('login');
+                $response = Redirect::route('login')
+                			->with('message','Your account is not activated please check you e-mail!');
             } else {
                 $credentials = array('email' => $user->email);
                 $response = Password::remind($credentials, function($message, $user) {

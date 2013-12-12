@@ -30,7 +30,7 @@ class CreateTbdsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tbd');
+		Schema::drop('tbds');
 	}
 
 }

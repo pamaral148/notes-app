@@ -16,6 +16,7 @@ class AuthenticateController extends BaseController {
     public function getIndex() {
         $title = 'Assigment 2 - Login';
         $heading = 'Login';
+        
         return View::make('authenticate.index')
                         ->with('title', $title)
                         ->with('heading', $heading);
@@ -28,38 +29,62 @@ class AuthenticateController extends BaseController {
             'password' => Input::get('password'),
             'active' => 1
         );
-
+        // remember and populate the username
+        setcookie('username', $credentials['email'], time()+3600*24*30);
         if (Input::get('remember')) {
             $remember = TRUE;
         } else {
             $remember = FALSE;
+            setcookie('username', $credentials['email'], time()-3600);
         }
-
+		// user have credetial ok 
         if (Auth::attempt($credentials, $remember)){
-            $cookie = Cookie::forget('_secure');
-            $id = Auth::user()->id;
-           
-            return Redirect::route('home')
-                    ->withCookie($cookie);
+            $user = User::find(Auth::user()->id);
+            $user->attempt = 0;
+            $user->save(); 
+                 
+        	return Redirect::route('home')
+        	->with('message','You are succesfuly log in!');
+                    
         } else {
-            $val = Cookie::get('_secure');
-            if($val < 2) {
-                $val++;
-            } else {
-                $email = Input::get('email');
-                $user = User::where('email', '=', $email)->take(1)->first();
-                // if account locked on attempt, send email to owner
-                $response = User::getLockedResponse($user);
-                $user->active = 0;
-                $str = '!dffhjgh@bnm6767584fgfhrre_hjhkytjygyj';
-                $user->password = Hash::make(str_shuffle($str));
-                $user->save();
-                return $response;
-            }
-            $cookie = Cookie::make('_secure', $val);
-            return Redirect::route('login')
-                       ->withCookie($cookie);
-        }
+        	
+        	$email = Input::get('email');
+        	$user = User::where('email', $email)->take(1)->first();
+         // email is ok but password or activation aren't    
+            if (isset($user->id)){
+            	if ($user->active != 1)	
+            		// user is not activated
+            		return Redirect::route('login')
+					->withErrors('Your accoount ' . $email ." is not active or it's locked! Please check your email and spam folder too!" );
+				else{		
+            			// save attemp for each user 
+		            	$val = $user->attempt;
+		    	        if($val < 2) {
+		        	        $val++;
+		            	} else {
+			                // this is the third attemp 
+			                $user->active = 0;
+			                $str = '!dffhjgh@bnm6767584fgfhrre_hjhkytjygyj';
+			                $user->password = Hash::make(str_shuffle($str));
+			                $user->save();
+
+			                $credentials = array('email' => $user->email);
+			                $response = Password::remind($credentials, function($message, $user) {
+			                	$message->subject('Someone has tried to access your account. Your password has been reset.');
+			                });
+			                
+			                return $response;
+		            	}	
+						// save the attempt 
+		            	$user->attempt = $val;
+		            	$user->save();
+            		}
+            } 
+          	// redirect to login 
+          	return Redirect::route('login')
+           	->withErrors('Username or password incorrect!')
+           	->withInput();
+        } 	 
     }
 
     public function getRegister() {
