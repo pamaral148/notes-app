@@ -16,11 +16,28 @@ class NoteController extends BaseController
     public function getNote()
     {
         $id = Input::get('id');
-        $note = Note::find($id);
-        $title = 'Assignment 2 - Note';
-        return View::make('notes.index')
-                ->with('title', $title)
-                ->with('note', $note);
+        $data = Note::find($id)->toJson();
+        return $data;
+    }
+    
+    public function getAll()
+    {
+    	$id = Auth::user()->id;
+    	if (trim(Input::get('search')) !=""){
+    		$search = "%" . Input::get('search') . "%";
+    		$notes = Note::where('user_id',$id)
+    					->where('description',"LIKE",$search)
+    					->orderBy('updated_at','DESC')
+    					->get();
+    	}	
+    	else
+    	$notes = Note::where('user_id',$id)
+		    	->orderBy('updated_at','DESC')
+		    	->get();
+		    
+    
+    	return View::make('home.includes.notes_table')
+    	->with('notes', $notes);
     }
     
     public function postAdd()
@@ -33,13 +50,12 @@ class NoteController extends BaseController
                 ->withInput();
         } else {
             $note = new Note();
-            $note->title = Input::get('title');
             $note->description = Input::get('text');
             $note->user_id = Auth::user()->id;
             $note->save();
             
-            return Redirect::route('home')
-                ->with('message', 'Note \'' . $note->title . '\' successfully added.');
+            $data = array('message'=>"Note successfully added!");
+            return json_encode($data);
         }
     }
     
@@ -48,9 +64,7 @@ class NoteController extends BaseController
         $validator = Note::validate(Input::all());
         $id = Input::get('id');
         if($validator->fails()){
-            return Redirect::route('note.update', array('id' => $id))
-                ->withErrors($validator)
-                ->withInput();
+            return $validation->messages()->toJson();
         } else {
             
             $note = Note::find($id);
@@ -58,8 +72,9 @@ class NoteController extends BaseController
             $note->description = Input::get('text');
             $note->save();
             
-            return Redirect::route('note.update', array('id' => $id))
-                ->with('message', 'Note \'' . $note->title . '\' successfully updated.');
+           	$data = array('message'=>"Note successfully updated!");
+            return json_encode($data);
+        	
         }
     }
     
@@ -68,7 +83,8 @@ class NoteController extends BaseController
         $id = Input::get('id');
         $note = Note::find($id);
         $note->delete();
-        return Redirect::route('home')
-                ->with('message', 'Note \'' . $note->title . '\' successfully deleted.');
+        
+        $data = array('message'=>"Note successfully deleted!");
+        return json_encode($data);
     }
 }

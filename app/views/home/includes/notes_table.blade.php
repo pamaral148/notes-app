@@ -1,20 +1,20 @@
-<div class='table-container pull-right'>
+
     <table class='table table-striped'>
         <thead>
             <tr>
-            <th>Title</th>
-            <th>Text</th>
-            <th></th>
+	            <th>Text</th>
+	            <th>Edit</th>
+	            <th>Remove</th>
             </tr>
         </thead>
         <tbody>
             @foreach($notes as $note)
-            <tr>
-                <td>{{ link_to_route('note.update', $note->title, array('id' => $note->id)) }}</td>
-                <td>{{ $note->description }}</td>
-                <td><button class='btn btn-sm btn-danger'>{{ link_to_route('note.delete', 'Delete', array('id' => $note->id)) }}</button></td>
+            <tr id= "{{$note->id}}">
+                <td>{{ Note::snippet($note->description) }}</td>
+                <td><button class='btn btn-sm btn-success noteUpdate'><span class="glyphicon glyphicon-edit"></span></button></td>
+                <td><button class='btn btn-sm btn-danger noteDelete'><span class="glyphicon glyphicon-remove"></span></button></button></td>
             </tr>
             @endforeach
         </tbody>
     </table>    
-</div>    
+ 

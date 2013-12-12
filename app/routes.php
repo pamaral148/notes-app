@@ -101,19 +101,22 @@ Route::get('logout', array('as' => 'logout', function () {
 Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'HomeController@index'));
 	
 // Notes routes
-Route::group(array('prefix' => 'notes'), function() {
+Route::group(array('prefix' => 'notes', 'before' => 'auth'), function() {
 
     // POST new note
     Route::post('create', array('before' => 'csrf', 'uses' => 'NoteController@postAdd'));
     
+    // GET all notes
+    Route::get('all', array('uses' => 'NoteController@getAll'));
+    
     // GET update
-    Route::get('update', array('as' => 'note.update', 'before' => 'auth', 'uses' => 'NoteController@getNote'));
+    Route::get('update', array('as' => 'note.update', 'uses' => 'NoteController@getNote'));
     
     // POST update
     Route::post('update', array('before' => 'csrf', 'uses' => 'NoteController@postUpdate'));
     
     // GET delete note
-    Route::get('delete', array('as' => 'note.delete', 'before', 'auth', 'uses' => 'NoteController@deleteNote'));
+    Route::get('delete', array('as' => 'note.delete', 'uses' => 'NoteController@deleteNote'));
     
 });
 

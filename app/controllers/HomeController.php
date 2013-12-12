@@ -15,18 +15,19 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showWelcome()
-	{
-		return View::make('hello');
-	}
-        
-        public function index()
+	    public function index()
         {
             $title = 'Assignment 2 - Home';
             $user_id = Auth::user()->id;
-            $notes = User::find($user_id)->notes;
-            $links = User::find($user_id)->links;
-            $tbds = User::find($user_id)->tbds;
+            $notes = Note::where('user_id', $user_id)
+            		->orderBy('updated_at','DESC')
+            		->get();
+            $links = Link::where('user_id', $user_id)
+            		->orderBy('updated_at','DESC')
+            		->get();User::find($user_id)->links;
+            $tbds = Tbd::where('user_id', $user_id)
+            		->orderBy('updated_at','DESC')
+            		->get();
             $images = Image::where('user_id',$user_id)->get();
             
             $dir = './tmp/' . $user_id;
@@ -45,7 +46,6 @@ class HomeController extends BaseController {
             } else 
             {
             	File::makeDirectory($dir,  $mode = 0777, $recursive = false);
-            	
             }
             
             foreach ($images as $image){
