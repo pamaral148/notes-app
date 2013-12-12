@@ -73,7 +73,7 @@ $(document).on('click', '#confirmOk',function(){
 });// end actual delete
 
 
-//update get note and place it into modal
+//POST update 
 $(document).on('click', '#updateNote',function(){
 	// geting the id from table <tr> 
 	var	id= $("#editModal").attr('data-info');
@@ -103,7 +103,7 @@ $(document).on('click', '#updateNote',function(){
 });	// END update get note
 
 
-//POST update note 
+//GET update note 
 $(document).on('click', '.noteUpdate',function(){
 	// geting the id from table <tr> 
 	var id = this.parentNode.parentNode.id;
@@ -129,6 +129,33 @@ $(document).on('click', '.noteUpdate',function(){
 	});// ajax call
 });	// END update get note
 
+viewNote
+
+//GET update note 
+$(document).on('click', '.viewNote',function(){
+	// geting the id from table <tr> 
+	var id = this.parentNode.parentNode.id;
+	$('#ajax-loader').show();
+	$.ajax({
+		url: 'notes/update',
+		type: 'get',
+		data: {'id':id},
+        success: function(data){
+        	var data = $.parseJSON(data);
+       	
+        		$("#viewModal .modal-body").html('<p>' + data['description'] + "</p>");
+        		$("#viewModal").modal('show');
+        	
+         },
+        error: function() {
+            alert('Client DB is currently unavailable; please try again later.');
+        },
+        complete: function () {
+        	$('#ajax-loader').hide();
+        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+        }
+	});// ajax call
+});	// END update get note
 
 
 
