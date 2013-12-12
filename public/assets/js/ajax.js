@@ -129,7 +129,9 @@ $(document).on('click', '.noteUpdate',function(){
 	});// ajax call
 });	// END update get note
 
-viewNote
+//$("#date").datepicker({
+//    format: 'yyyy-mm-dd'
+//});
 
 //GET update note 
 $(document).on('click', '.viewNote',function(){

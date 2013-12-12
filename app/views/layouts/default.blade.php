@@ -21,6 +21,7 @@
 
         <!-- Custom styles for this template -->
         <link href="{{ URL::asset('assets/css/style.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('assets/css/date_picker.css') }}" rel="stylesheet">
         @yield('addHead')
     </head>
 

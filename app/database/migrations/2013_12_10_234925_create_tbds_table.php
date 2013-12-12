@@ -15,10 +15,11 @@ class CreateTbdsTable extends Migration {
 		Schema::create('tbds', function(Blueprint $table)
 		{
 			$table->increments('id');
-                        $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
-                        $table->string('title');
-                        $table->text('description');
+            $table->boolean('done');
+            $table->text('description');
+            $table->date('date');
 			$table->timestamps();
 		});
 	}

@@ -45,9 +45,7 @@ class NoteController extends BaseController
         $validator = Note::validate(Input::all());
         
         if($validator->fails()){
-            return Redirect::route('home')
-                ->withErrors($validator)
-                ->withInput();
+            return $validation->messages()->toJson();
         } else {
             $note = new Note();
             $note->description = Input::get('text');
