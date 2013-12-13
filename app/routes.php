@@ -129,21 +129,30 @@ Route::group(array('prefix' => 'images'), function() {
 });
 
 // Links routes
-Route::group(array('prefix' => 'links'), function() {
+Route::group(array('prefix' => 'links', 'before' => 'auth'), function() {
    
-    // POST new image
-    Route::post('post', array('before' => 'csrf', 'uses' => 'LinkController@postLinks'));
+    // POST new link
+    Route::post('create', array('before' => 'csrf', 'uses' => 'LinkController@postLinks'));
+
+    // GET all links  
+    Route::get('all', array('uses' => 'LinkController@getAll'));
+    
+    // POST delete link
+    Route::post('delete', array('uses' => 'LinkController@postDelete'));
+
+    // POST delete link
+    Route::post('update', array('before' => 'csrf', 'uses' => 'LinkController@postUpdate'));
     
 });
 
 // Tbd routes
-Route::group(array('prefix' => 'tbd'), function() {
+Route::group(array('prefix' => 'tbd', 'before' => 'auth'), function() {
 
     // POST new tbd
     Route::post('create', array('before' => 'csrf', 'uses' => 'TbdController@postAdd'));
     
     // GET all tbd
-    Route::get('all', array('before' => 'auth', 'uses' => 'TbdController@getAll'));
+    Route::get('all', array('uses' => 'TbdController@getAll'));
     
     // POST update
     Route::post('status', array('uses' => 'TbdController@postStatus'));
@@ -152,6 +161,6 @@ Route::group(array('prefix' => 'tbd'), function() {
     Route::post('update', array('before' => 'csrf', 'uses' => 'TbdController@postUpdate'));
     
     // GET delete tbd
-    Route::get('delete', array('before'  => 'auth', 'uses' => 'TbdController@deleteTbd'));
+    Route::get('delete', array('uses' => 'TbdController@deleteTbd'));
     
 });

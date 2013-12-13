@@ -14,7 +14,7 @@
 class Link extends Eloquent 
 {
     public static $rules = array(
-        'url' => 'url'
+        'url' => 'url|unique:links'
     );
 
     public function user() 
@@ -24,6 +24,10 @@ class Link extends Eloquent
     
     public static function validate($data)
     {
+    	$messages = array(
+    			'url.unique' => 'You already have this link.',
+        	);
+    	 
         return Validator::make($data, self::$rules);
     }
 }

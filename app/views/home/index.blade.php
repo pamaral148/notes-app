@@ -28,7 +28,10 @@
       </div>
     </div>
   <div class="tab-pane" id="links">
-      @include('home.includes.links')
+    @include('home.includes.links_post')
+    <div id ='linkTable'>
+      @include('home.includes.links_list')
+  	</div>
   </div>
   <div class="tab-pane" id="images">
       @include('home.includes.image_post')

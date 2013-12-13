@@ -18,46 +18,66 @@ class LinkController extends BaseController
         $validator = Link::validate(Input::all());
         
         if($validator->fails()){
-            return Redirect::route('home')
-                ->withErrors($validator)
-                ->withInput();
+            return $validator->messages()->toJson();
         } else {
-            $input = Input::except('_token');
-            foreach($input as $key => $value) {
-              if($key == 'url'){
-                 $user_id = Auth::user()->id;
-                 $this->createLink($value, $user_id);
-              } else {
-                  $this->updateLink($key, $value);
-              }
-            }
-            return Redirect::route('home')
-                  ->with('message', 'Link successfully added.');
+            $input = Input::get('url');
+            $user_id = Auth::user()->id;
+			$link = new Link();
+			$link->url = $input;
+			$link->user_id = $user_id;
+			$link->save();	
+           
+         	$data = array('message'=>"Link successfully added!");
+            return json_encode($data);
         }
     }
     
-    private function createLink($value, $user_id)
+    public function getAll()
     {
-        if($value == NULL) {
-            return FALSE;
-        } else {
-            $link = new Link();
-            $link->user_id = $user_id;
-            $link->url = $value;
-            $link->save();
-            return TRUE;
-        }
-    }
+    	$user_id = Auth::user()->id;
+    	if (trim(Input::get('search')) !=""){
+    		$search = "%" . Input::get('search') . "%";
+    		$links = Link::where('user_id', $user_id)
+    			 	->where('url','LIKE',$search)
+    			 	->orderBy('updated_at', 'DESC')
+    			 	->get();
+    	}
+    	else
+    	 	$links = Link::where('user_id', $user_id)
+    			 	->orderBy('updated_at', 'DESC')
+    			 	->get();
 
-    private function updateLink($link_id, $value)
+    	return View::make('home.includes.links_list')
+    	 	   ->with('links', $links);
+    
+    }
+    
+    public function postDelete()
     {
-        $link = Link::find($link_id);
-        if($value == NULL) {
-            $link->delete();
-        } else {
-            $link->url = $value;
-            $link->save();
-        }
-        return TRUE;
+    	$id = Input::get('id');
+    	$link = Link::find($id);
+    	$link->delete();
+    	
+    	$data = array('message'=>"Link successfully deleted!");
+    	return json_encode($data);
+    
+    }
+    
+    public function postUpdate()
+    {
+    	$id = Input::get('id');
+    	
+    	$validator = Link::validate(Input::all());
+    	if($validator->fails()){
+    		return $validator->messages()->toJson();
+    	} else {
+    		$input = Input::get('url');
+    		$link = Link::find($id);
+    		$link->url = $input;
+    		$link->save();
+    		 
+    		$data = array('message'=>"Link successfully updated!");
+    		return json_encode($data);
+    	}
     }
 }

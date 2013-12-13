@@ -308,10 +308,115 @@ $(document).on('click', '#updateTbd',function(){
             	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
             }
     	});// ajax call
+});	// END update tbd
+
+//************Links*******************************
+
+function refreshLinkContent(){
+	$('#ajax-loader').show();
+	
+	var search = $("#searchLink").val()
+	if (search !="") {
+   	 var query = "?search="+search;
+    	$('#linkTable').load('links/all/'+ query);
+    }
+    else
+    {
+    	
+		$('#linkTable').load('links/all');
+    }
+		$("#linkForm #url").val('');
+		$('#ajax-loader').hide();
+}
+
+$(document).on('keyup', '#searchLink',function(){
+	refreshLinkContent();
+});
+
+//Add a new link 
+$(document).on('click', '#addLink',function(){
+   	$('#ajax-loader').show();
+	var $form = $('#linkForm');
+    // let's select and cache all the fields
+    var $inputs = $form.find("input");
+    // serialize the data in the form
+    var serializedData = $form.serialize();
+    //var id = $("#editTbdModal").attr('data-info');
+	$.ajax({
+		url: 'links/create',
+		type: 'post',
+        data: serializedData,
+        success: function(data){
+        	messages(data, "#messages");
+        },
+        error: function() {
+            alert('Client DB is currently unavailable; please try again later.');
+        },
+        complete: function () {
+        	refreshLinkContent();
+        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+        }
+	});// ajax call
+});	// END add link
+
+//Delete link 
+$(document).on('click', '.linkDelete',function(){
+   	$('#ajax-loader').show();
+   	var id = this.parentNode.parentNode.id;
+	$.ajax({
+		url: 'links/delete',
+		type: 'post',
+        data: {'id': id},
+        success: function(data){
+        	messages(data, "#messages");
+        },
+        error: function() {
+            alert('Client DB is currently unavailable; please try again later.');
+        },
+        complete: function () {
+        	refreshLinkContent();
+        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+        }
+	});// ajax call
+});	// END delete link
+
+//GET update tbd 
+$(document).on('click', '.linkUpdate',function(){
+	// geting the id from table <tr> 
+	var id = this.parentNode.parentNode.id;
+	
+    var text = $(this).parent().prev().text();
+     $("#formLinkUpdate #url").val(text.trim())
+     $("#editLinkModal").attr('data-info',id).modal('show');
+        	
+    
+});	// END update tbd
+
+//post update tbd
+$(document).on('click', '#updateLink',function(){
+       	$('#ajax-loader').show();
+    	var $form = $('#formLinkUpdate');
+        // let's select and cache all the fields
+        var $inputs = $form.find("input");
+        // serialize the data in the form
+        var serializedData = $form.serialize();
+        var id = $("#editLinkModal").attr('data-info');
+    	$.ajax({
+    		url: 'links/update?id='+id,
+    		type: 'post',
+            data: serializedData,
+            success: function(data){
+            	messages(data);
+             },
+            error: function() {
+                alert('Client DB is currently unavailable; please try again later.');
+            },
+            complete: function () {
+            	refreshLinkContent();
+            	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+            }
+    	});// ajax call
 });	// END add note
-
-
-
 
 
 
