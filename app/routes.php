@@ -121,10 +121,13 @@ Route::group(array('prefix' => 'notes', 'before' => 'auth'), function() {
 });
 
 // Images routes
-Route::group(array('prefix' => 'images'), function() {
+Route::group(array('prefix' => 'images', 'before' => 'auth'), function() {
    
     // POST new image
-    Route::post('upload', array('before' => 'csrf', 'uses' => 'ImageController@postUpload'));
+    Route::post('upload', array( 'uses' => 'ImageController@postUpload'));
+
+    // GET all image
+    Route::get('all', array('uses' => 'ImageController@getAll'));
     
 });
 

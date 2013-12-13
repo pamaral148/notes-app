@@ -418,6 +418,82 @@ $(document).on('click', '#updateLink',function(){
     	});// ajax call
 });	// END add note
 
+//************Images*******************************
+
+function refreshImageContent(){
+	$('#ajax-loader').show();
+		
+		$('#imageTable').load('images/all');
+    
+		$("#image").val('');
+		$('#ajax-loader').hide();
+}
+
+//Add a new image 
+$(document).on('click', '#addimage',function(){
+ //  	$('#ajax-loader').show();
+ 
+   	
+    var file = document.getElementById("images");
+    
+    var fd = new FormData();
+    fd.append("image", file);
+    // These extra params aren't necessary but show that you can include other data.
+    fd.append("username", "Groucho");
+    fd.append("accountnum", 123456);
+   
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'images/upload', true);
+    
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        console.log(percentComplete + '% uploaded');
+      }
+    };
+   
+    xhr.onload = function() {
+      if (this.status == 200) {
+        var resp = JSON.parse(this.response);
+   
+        console.log('Server got:', resp);
+   
+        
+      };
+    };
+   
+    xhr.send(fd);
+   	
+   	
+   	
+   	
+   	
+   
+//     var fd = new FormData();    
+//    
+//     var input = document.getElementById("images")   
+//      fd.append( 'image', input);
+//     
+//     $.ajax({
+//		url: 'images/upload',
+//		type: "POST",
+//        data: fd,
+//        processData: false,
+//        contentType: false,
+//        success: function(data){
+//        	messages(data, "#messages");
+//        },
+//        error: function() {
+//            alert('Client DB is currently unavailable; please try again later.');
+//        },
+//        complete: function () {
+//        	refreshImageContent();
+//        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+//        }
+//	});// ajax call
+});	// END add image
+
+
 
 
 

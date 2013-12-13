@@ -14,7 +14,6 @@
 class Image extends Eloquent
 {
     public static $rules = array(
-        'caption' => 'required|between:3,45',
         'image' => 'required|mimes:jpg,jpeg,gif'
     );
     

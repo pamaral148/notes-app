@@ -1,14 +1,18 @@
-<div class='form-container pull-left' id=images-container'>
-    {{ Form::open(array('url' => 'images/upload', 'method' => 'post', 'role' => 'form', 'files' => true)) }}
-    <div class="form-group">    
-        <label class="sr-only" for="title">Image Caption</label>
-        {{ Form::text('caption', Input::old('caption'), array('placeholder' => 'Image Caption' , 'class' => 'form-control', 'id' => 'caption' )) }}
-    </div>
-    <div class="form-group">    
-        <label class="sr-only" for="text">Image File</label>
-        {{ Form::file('image', array('class' => 'form-control', 'id' => 'text' )) }}
-    </div>
-    {{ Form::submit('Add Image') }}
+<br />
+<div>
+    {{ Form::open(array('method' => 'post', 'role' => 'form', 'id' => 'imageForm' ,'files' => true)) }}
+	    <div class="form-group col-md-4">    
+	        <label class="sr-only" for="title">Image Caption</label>
+	        {{ Form::text('caption', Input::old('caption'), array('placeholder' => 'Image Caption' , 'class' => 'form-control', 'id' => 'caption' )) }}
+	    </div>
+	    <div class="form-group col-md-4">    
+     	   	<label class="sr-only" for="text">Image File</label>
+         	<input class="btn btn-default" type="file" id="image" name="image">
+	   	</div>
+    
+    	<div class="form-group col-md-1">    
+    		<button id="addimage" type="button" class="btn btn-primary btn">Add</button>    
+    	</div>
     {{ Form::close() }}
 </div>
 
