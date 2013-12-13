@@ -5,12 +5,16 @@
             <h2>{{ $heading }}</h2>
             <br>
             @include('authenticate.includes.register')
+            <br>
+            <p>Back to {{ link_to_route('login', 'Sign in') }} page.</p>
         </div>
     @elseif(Request::is('reset'))
         <div class="container form-container">
             <h2>{{ $heading }}</h2>
             <br>
             @include('authenticate.includes.reset')
+            <br>
+            <p>Back to {{ link_to_route('login', 'Sign in') }} page.</p>
         </div>
     @else 
         <div class="container form-container">
