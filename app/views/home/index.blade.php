@@ -10,7 +10,7 @@
 </ul>
 @include('home.includes.modals')
 <!-- Tab panes -->
-<div class="tab-content">
+<div class="tab-content container clearfix">
     <div class="tab-pane active" id="notes">
         <br>
         @include('home.includes.notes_post')

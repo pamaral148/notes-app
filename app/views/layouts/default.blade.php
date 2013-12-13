@@ -81,18 +81,18 @@
            
             @yield('content')
         
-            <!-- Bootstrap core JavaScript
+          
+        
+        <div class="footer clearfix">
+        	<p>&copy; Web app design and develop by <a href="mailto:pamaral148@gmail.com">P. Amaral</a> and <a href="mailto:me@roberth.ca">Robert H.</a> {{ date("Y")}}</p>
+      	</div>
+        </div>
+		  <!-- Bootstrap core JavaScript
             ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
 			 @yield('addEndScript')
-        <br class="clearfix"/>
-        <div class="footer clearfix">
-        	<p>&copy; Web app design and develop by <a href="mailto:pamaral148@gmail.com">P. Amaral</a> and <a href="mailto:me@roberth.ca">Robert H.</a> {{ date("Y")}}</p>
-      	</div>
-        </div>
-
     </body>
 </html>
 

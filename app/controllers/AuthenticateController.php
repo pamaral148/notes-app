@@ -131,6 +131,7 @@ class AuthenticateController extends BaseController {
         }
         $message = 'Your account was created and is waiting activation. Please check you email for activation instructions.';
         return View::make('authenticate.thankyou')
+        				->with('title', 'Thank you')
                         ->with('email', $user->email);
     }
 
