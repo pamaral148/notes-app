@@ -47,11 +47,7 @@
           	<div id="ajaxdiv" >
     			<img src="{{ URL::asset('assets/img/ajax-loader.gif') }}" id="ajax-loader"/>
 	 		</div>       
-          	<br class = "clearfix"/>
-      <!--           </div><!-- /.navbar-collapse -->
-      <!--      </div><!-- ./navigation -->
-		   <br class = "clearfix"/>
-		   <br class = "clearfix"/>
+       
             <div class="container messages clearfix">
 	            @if (Session::has('message'))
 					<div class="alert alert-success alert-dismissable">
