@@ -27,18 +27,23 @@
 
     <body>
         <div class="container">
-            <header>
-	            <h1 class ="pull-left">2920 Notes App</h1>
+            <div class="header">
+		        <ul class="nav nav-pills pull-right">
+		          <li>{{ link_to_route('about', 'About') }}</li>
+		          <li><a href="#">Contact</a></li>
+          		  @if(Auth::check())
+                  <li>{{ link_to_route('logout', 'Log out') }}</li>
+                  @else
+				  <li>{{ link_to_route('login', 'Sign in') }}</li>
+				  <li>{{ link_to_route('register', 'Register') }}</li>	
+                  @endif
+		          
+		          </ul>
+		        <h3 class="text-muted">Notes App</h3>
+      		</div>
             
-					<br />
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class = "lead">
-                            @if(Auth::check())
-                                {{ link_to_route('logout', 'Sign out') }}
-                            @endif
-                        </li>
-                    </ul>
-          	</header>
+            
+           
           	<div id="ajaxdiv" >
     			<img src="{{ URL::asset('assets/img/ajax-loader.gif') }}" id="ajax-loader"/>
 	 		</div>       
@@ -79,12 +84,17 @@
             </div>
            
             @yield('content')
+        
             <!-- Bootstrap core JavaScript
             ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
 			 @yield('addEndScript')
+        <br class="clearfix"/>
+        <div class="footer clearfix">
+        	<p>&copy; Web app design and develop by <a href="mailto:pamaral148@gmail.com">P. Amaral</a> and <a href="mailto:me@roberth.ca">Robert H.</a> {{ date("Y")}}</p>
+      	</div>
         </div>
 
     </body>

@@ -9,7 +9,7 @@
 /**
  * Description of ImageController
  *
- * @author pamaral
+ * @author pamaral and RobertH
  */
 class ImageController extends BaseController
 {

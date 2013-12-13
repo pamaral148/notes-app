@@ -9,7 +9,7 @@
 /**
  * Description of AuthenticateController
  *
- * @author pamaral
+ * @author pamaral and RobertH
  */
 class AuthenticateController extends BaseController {
 

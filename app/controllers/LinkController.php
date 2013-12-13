@@ -9,7 +9,7 @@
 /**
  * Description of LinkController
  *
- * @author pamaral
+ * @author pamaral and RobertH
  */
 class LinkController extends BaseController 
 {

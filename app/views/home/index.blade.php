@@ -35,7 +35,7 @@
   </div>
   <div class="tab-pane" id="images">
       @include('home.includes.image_post')
-      <div id ='imageTable' class ='col-md-7'>
+      <div id ='imageTable' class ='col-md-10'>
       	@include('home.includes.image_list')
   	  </div>	
   </div>

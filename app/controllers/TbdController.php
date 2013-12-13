@@ -9,7 +9,7 @@
 /**
  * Description of NoteController
  *
- * @author pamaral
+ * @author pamaral and RobertH
  */
 class TbdController extends BaseController
 {

@@ -64,6 +64,12 @@ class HomeController extends BaseController {
             		
         }
         
+        public function getAbout()
+        {
+        return View::make('home.about')
+        	->with('title', 'About Note app');
+        }
+        
         public static function thumb($image,$ext, $dir){
         	
         	if ($ext == "jpg" || $ext == "jpeg")

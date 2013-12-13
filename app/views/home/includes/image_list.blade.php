@@ -7,5 +7,5 @@
 @if (!isset($image))
 	<p>You have no images.</p>
 @endif	
-	   
+
 

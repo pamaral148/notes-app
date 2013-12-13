@@ -99,7 +99,10 @@ Route::get('logout', array('as' => 'logout', function () {
 
 // home route
 Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'HomeController@index'));
-	
+
+// about route
+Route::get('about', array('as' => 'about', 'uses' => 'HomeController@getAbout'));
+
 // Notes routes
 Route::group(array('prefix' => 'notes', 'before' => 'auth'), function() {
 
