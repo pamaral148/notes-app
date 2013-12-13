@@ -173,8 +173,8 @@ function refreshTbdContent(){
     	var query = "?status=" +status;
 		$('#tbdTable').load('tbd/all'+ query);
     }
-		$("#tbd_date").val('');
-		$("#tbd_text").val('');
+		$("#tbdForm #tbd_date").val('');
+		$("#tbdForm #tbd_text").val('');
 		$('#ajax-loader').hide();
     
 }
