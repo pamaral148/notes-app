@@ -68,5 +68,28 @@ margin-bottom: 10px;
     cursor: inherit;
     display: block;
 }
+
+.imageDelete{
 	
+	margin-top: 1px;
+	margin-left: -28px;
+	margin-right: 20px;
 	
+}
+#imageTable{
+position: relative;
+}
+.imgthumb img{
+	vertical-align:text-top;
+	
+/* 	padding-right: 100px;
+	position: absolute; 
+	top: 0; */
+}
+#imgmod{
+
+max-width: 100%;
+}
+#imgModal .modal-dialog{
+	max-width: 90%;
+}

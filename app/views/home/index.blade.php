@@ -35,7 +35,7 @@
   </div>
   <div class="tab-pane" id="images">
       @include('home.includes.image_post')
-      <div id ='imageTable'>
+      <div id ='imageTable' class ='col-md-10'>
       	@include('home.includes.image_list')
   	  </div>	
   </div>
@@ -43,7 +43,10 @@
 @stop
 @section('addEndScript')
 
+<script src="{{ URL::asset('assets/js/jqueryupload.js') }}"></script>
 
 <script src="{{ URL::asset('assets/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ URL::asset('assets/js/ajax.js') }}"></script>
+
+
 @stop

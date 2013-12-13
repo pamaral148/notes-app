@@ -54,24 +54,47 @@ $(document).on('click', '.noteDelete',function(){
 
 $(document).on('click', '#confirmOk',function(){
 	id= $("#confirm").attr('data-info');
-	$("#confirm").modal('hide');
-	$('#ajax-loader').show();
-	$.ajax({
-		url: 'notes/delete',
-		type: 'get',
-		data: {'id':id},
-        success: function(data){
-        	messages(data);
-         },
-        error: function() {
-            alert('Client DB is currently unavailable; please try again later.');
-        },
-        complete: function () {
-        	refreshNoteContent();
-        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
-        }
-	});// ajax call
-	
+	typ = $("#confirm").attr('data-type');
+	if (typ =="note"){
+		$("#confirm").modal('hide');
+		$('#ajax-loader').show();
+		$.ajax({
+			url: 'notes/delete',
+			type: 'get',
+			data: {'id':id},
+	        success: function(data){
+	        	messages(data);
+	         },
+	        error: function() {
+	            alert('Client DB is currently unavailable; please try again later.');
+	        },
+	        complete: function () {
+	        	refreshNoteContent();
+	        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+	        }
+		});// ajax call
+	}
+	else
+	{
+		$("#confirm").modal('hide');
+		$('#ajax-loader').show();
+		$.ajax({
+			url: 'images/delete',
+			type: 'get',
+			data: {'id':id},
+	        success: function(data){
+	        	messages(data, "#messages");
+	         },
+	        error: function() {
+	            alert('Client DB is currently unavailable; please try again later.');
+	        },
+	        complete: function () {
+	        	refreshImageContent();
+	        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+	        }
+		});// ajax call
+		
+	}
 });// end actual delete
 
 
@@ -431,72 +454,32 @@ function refreshImageContent(){
 
 //Add a new image 
 $(document).on('click', '#addimage',function(){
- //  	$('#ajax-loader').show();
- 
-   	
-    var file = document.getElementById("images");
-    
-    var fd = new FormData();
-    fd.append("image", file);
-    // These extra params aren't necessary but show that you can include other data.
-    fd.append("username", "Groucho");
-    fd.append("accountnum", 123456);
-   
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'images/upload', true);
-    
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        var percentComplete = (e.loaded / e.total) * 100;
-        console.log(percentComplete + '% uploaded');
-      }
-    };
-   
-    xhr.onload = function() {
-      if (this.status == 200) {
-        var resp = JSON.parse(this.response);
-   
-        console.log('Server got:', resp);
-   
-        
-      };
-    };
-   
-    xhr.send(fd);
-   	
-   	
-   	
-   	
-   	
-   
-//     var fd = new FormData();    
-//    
-//     var input = document.getElementById("images")   
-//      fd.append( 'image', input);
-//     
-//     $.ajax({
-//		url: 'images/upload',
-//		type: "POST",
-//        data: fd,
-//        processData: false,
-//        contentType: false,
-//        success: function(data){
-//        	messages(data, "#messages");
-//        },
-//        error: function() {
-//            alert('Client DB is currently unavailable; please try again later.');
-//        },
-//        complete: function () {
-//        	refreshImageContent();
-//        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
-//        }
-//	});// ajax call
+   	$('#ajax-loader').show();
+
+	$('#image').upload('images/upload', function(data) {
+			messages(data, "#messages", true);
+			refreshImageContent();
+	    }, 'json');
+
+
 });	// END add image
 
+//view in modal 
+$(document).on('click', '.imgthumb',function(e){
+   	e.preventDefault();
+   	src = $(this).attr("href");
+   	img = $('#imgmod');
+   	img.attr('src', src);
+   	$("#imgModal").modal('show')
+      
+});	// END view in modal
 
 
-
-
+$(document).on('click', '.imageDelete',function(e){
+	var id = this.id;
+	$("#confirm").attr('data-info',id).attr('data-type','img').modal('show');
+	//the actual delete is up 
+})
 
 function AutoClosingAlert() {
 	window.setTimeout(function() { 
@@ -504,12 +487,15 @@ function AutoClosingAlert() {
 }// END function to autoclose the alerts 
 
 
- function messages(data, idName){
-	 
+ function messages(data, idName, parse){
+	 parse = parse || false;
 	 idName = idName || '.mod-err';
+	 
 	 $(".alert").alert('close');
- 	data = $.parseJSON(data);
- 	if (data.hasOwnProperty('message'))
+	if (parse != true)
+		data = $.parseJSON(data);
+ 	
+	if (data.hasOwnProperty('message'))
  	{
  		var mess="";
  		mess = "<div class='alert alert-success alert-dismissable'>";

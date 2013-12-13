@@ -52,7 +52,7 @@ class HomeController extends BaseController {
             
             foreach ($images as $image){
             	file_put_contents($dir . "/" .$image->id . "." . $image->extension, $image->contents);
-            	$this->thumb($dir. "/" . $image->id . "." . $image->extension,$image->extension, $dir);
+            	self::thumb($dir. "/" . $image->id . "." . $image->extension,$image->extension, $dir);
             }
             
             return View::make('home.index')
@@ -64,12 +64,11 @@ class HomeController extends BaseController {
             		
         }
         
-        private function thumb($image,$ext, $dir){
+        public static function thumb($image,$ext, $dir){
         	
-        	if ($ext == "jpg" )
+        	if ($ext == "jpg" || $ext == "jpeg")
         		$original  = Imagecreatefromjpeg($image);
-                elseif ($ext == "jpeg" )
-        		$original  = Imagecreatefromjpeg($image);
+                
         	else
         		$original  = Imagecreatefromgif($image);
         	 

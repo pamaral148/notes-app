@@ -129,6 +129,9 @@ Route::group(array('prefix' => 'images', 'before' => 'auth'), function() {
     // GET all image
     Route::get('all', array('uses' => 'ImageController@getAll'));
     
+    // GET delete
+    Route::get('delete', array('uses' => 'ImageController@getDelete'));
+    
 });
 
 // Links routes

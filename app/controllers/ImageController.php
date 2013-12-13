@@ -16,9 +16,10 @@ class ImageController extends BaseController
     public function postUpload()
     {
         $user_id = Auth::user()->id;
-        
+       
         $validator = Image::validate(Input::all());
-        $uploadSuccess = Input::file('file')->move('./tmp/', 'pic.jpg');
+        
+      
         if($validator->fails()){
             return $validator->messages()->toJson();
         } else {
@@ -30,12 +31,18 @@ class ImageController extends BaseController
             $image = new Image();
             $image->user_id = $user_id;
             $image->caption = '  ';
+            $image->extension = Input::file('image')->getClientOriginalExtension();
             $image->contents = file_get_contents(Input::file('image'));
             $image->mime = Input::file('image')->getMimeType();
-            $image->extension = Input::file('image')->getClientOriginalExtension();
+           // $image->extension = Input::file('image')->getClientOriginalExtension();
             
-            $image->save();
            
+            $image->save();
+            
+            $dir = './tmp/' . $user_id;
+            file_put_contents($dir . "/" .$image->id . "." . $image->extension, $image->contents);
+            HomeController::thumb($dir. "/" . $image->id . "." . $image->extension,$image->extension, $dir);
+            
             
             $data = array('message'=>"Image uploaded successfully!");
     		return json_encode($data);
@@ -54,7 +61,14 @@ class ImageController extends BaseController
         
         }
     
-    
+ 		public function getDelete(){
+	 		$id = Input::get('id');
+	    	$image = Image::find($id);
+	    	$image->delete();
+	    	
+	    	$data = array('message'=>"Image successfully deleted!");
+	    	return json_encode($data);
+ 		}   
 }
     
     
