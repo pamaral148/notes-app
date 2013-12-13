@@ -55,6 +55,9 @@
                         </li>
                     </ul>
           	</header>
+          	<div id="ajaxdiv" >
+    			<img src="{{ URL::asset('assets/img/ajax-loader.gif') }}" id="ajax-loader"/>
+	 		</div>       
           	<br class = "clearfix"/>
       <!--           </div><!-- /.navbar-collapse -->
       <!--      </div><!-- ./navigation -->
@@ -97,7 +100,7 @@
             <!-- Placed at the end of the document so the pages load faster -->
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
-
+			 @yield('addEndScript')
         </div>
 
     </body>

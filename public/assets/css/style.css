@@ -20,9 +20,34 @@ and open the template in the editor.
 {
     width: 58%;
 }
+#search{
+	width: 180px;
+	float: right;
+}
 
-.btn a
-{
-    color: white;
-    text-decoration: none;
+#notes-container{
+	
+	width: 55%;
+}
+#notesTable{
+	width: 45%;
+}
+.resizeVertical{
+	resize: none;
+	resize:vertical;
+}
+#ajaxdiv {
+      position: absolute;
+     
+    left: 50%;
+    top: 50%;
+  
+    margin-left: -64px; /* -1 * image width / 2 */
+    margin-top: -64px;  /* -1 * image height / 2 */
+    z-index: 9999;
+
+display: block;     
+}
+#ajax-loader {
+  display: none;
 }

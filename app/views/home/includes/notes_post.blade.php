@@ -1,14 +1,11 @@
-<div class='form-container pull-left' id=notes-container'>
-    {{ Form::open(array('url' => 'notes/create', 'method' => 'post', 'role' => 'form')) }}
-    <div class="form-group">    
-        <label class="sr-only" for="title">Note Title</label>
-        {{ Form::text('title', Input::old('title'), array('placeholder' => 'Note Title' , 'class' => 'form-control', 'id' => 'title' )) }}
-    </div>
+<div class='container pull-left' id= "notes-container">
+    {{ Form::open(array('url' => 'notes/create', 'method' => 'post', 'role' => 'form', 'id' => 'noteForm')) }}
+  
     <div class="form-group">    
         <label class="sr-only" for="text">Note Text</label>
-        {{ Form::textarea('text', Input::old('text'), array('placeholder' => 'Note Text' , 'class' => 'form-control', 'id' => 'text' )) }}
+        {{ Form::textarea('text', Input::old('text'), array('placeholder' => 'Note Text' , 'class' => 'form-control resizeVertical', 'id' => 'text' )) }}
     </div>
-    {{ Form::submit('Add Note') }}
+    <button id="addNote" type="button" class="btn btn-primary btn">Add </button>
     {{ Form::close() }}
 </div>
 
