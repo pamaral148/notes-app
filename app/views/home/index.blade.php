@@ -21,9 +21,11 @@
          	 @include('home.includes.notes_table')
        </div>
     </div>
-    <div class="tab-pane" id="tbd">
+    <div class="tab-pane" data-status='2' id="tbd">
         @include('home.includes.tbd_post')
+      <div id='tbdTable' class='col-md-12'>
         @include('home.includes.tbd_table')
+      </div>
     </div>
   <div class="tab-pane" id="links">
       @include('home.includes.links')
@@ -37,6 +39,6 @@
 @section('addEndScript')
 
 
-<script src="{{ URL::asset('assets/js/bootstrap-dialog.js') }}"></script>
+<script src="{{ URL::asset('assets/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ URL::asset('assets/js/ajax.js') }}"></script>
 @stop

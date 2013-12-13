@@ -24,9 +24,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="modalTitle" class="modal-title" >Edit</h4>
+        <h4 class="modal-title" >Edit note</h4>
       </div>
       <div class="modal-body">
+      	<div class="mod-err" ></div>
         	{{ Form::open(array('method' => 'post', 'role' => 'form', 'id' => 'formUpdate')) }}
         		<textarea name = 'text' class = 'form-control resizeVertical' rows = '7'></textarea>
         	{{ Form::close() }}
@@ -46,7 +47,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="modalTitle" class="modal-title" >View</h4>
+        <h4  class="modal-title" >View note</h4>
       </div>
       <div class="modal-body">
         
@@ -59,4 +60,38 @@
       </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal-->
+
+
+<!-- Edit Modal for tbd ----------------------------------------------------------		-->
+<div class="modal fade" id="editTbdModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4  class="modal-title" >Edit</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="mod-err" ></div>
+        	{{ Form::open(array('method' => 'post', 'role' => 'form', 'id' => 'formTbdUpdate')) }}
+			   	<div class="form-group col-md-4">    
+			        <label class="sr-only" for="date">Date</label>
+			        {{ Form::text('tbd_date', Input::old('tbd_date'), array('placeholder' => 'YYYY-MM-DD' , 'class' => 'form-control datePicker', 'id' => 'tbd_date' )) }}
+			    </div>
+			    <div class="form-group col-md-8">   
+			        <label class="sr-only" for="text">Note Text</label>
+			        {{ Form::text('tbd_text', Input::old('tbd_text'), array('placeholder' => 'To be done' , 'class' => 'form-control', 'id' => 'tbd_text' )) }}
+			    </div>	
+        	{{ Form::close() }}
+        	<br />
+        	<div id="viewNote"></div>
+      </div>                    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="updateTbd">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal-->
+
+
 

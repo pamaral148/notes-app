@@ -25,9 +25,11 @@ class HomeController extends BaseController {
             $links = Link::where('user_id', $user_id)
             		->orderBy('updated_at','DESC')
             		->get();User::find($user_id)->links;
+            
             $tbds = Tbd::where('user_id', $user_id)
-            		->orderBy('updated_at','DESC')
+            		->orderBy('date','DESC')
             		->get();
+            
             $images = Image::where('user_id',$user_id)->get();
             
             $dir = './tmp/' . $user_id;

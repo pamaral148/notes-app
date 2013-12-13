@@ -13,53 +13,82 @@
  */
 class TbdController extends BaseController
 {
-    public function getTbd()
-    {
-        $id = Input::get('id');
-        $tbd = Tbd::find($id);
-        $title = 'Assignment 2 - Tbd';
-        return View::make('tbd.index')
-                ->with('title', $title)
-                ->with('tbd', $tbd);
-    }
-    
     public function postAdd()
     {
         $validator = Tbd::validate(Input::all());
         
         if($validator->fails()){
-            return Redirect::route('home')
-                ->withErrors($validator)
-                ->withInput();
+            return $validator->messages()->toJson();
         } else {
             $tbd = new Tbd();
-            $tbd->title = Input::get('tbd_title');
             $tbd->description = Input::get('tbd_text');
             $tbd->user_id = Auth::user()->id;
+			$tbd->done = 0;
+			$tbd->date = Input::get('tbd_date');
+				
             $tbd->save();
             
-            return Redirect::route('home')
-                ->with('message', 'Tbd \'' . $tbd->title . '\' successfully added.');
+            $data = array('message'=>"To be done successfully added!");
+            return json_encode($data);
         }
     }
+    
+    public function getAll()
+    {
+    	$id = Auth::user()->id;
+    	$status = Input::get('status');
+    	
+    	if ($status == 2)
+    		$array= array(0,1);
+    	else 
+    		$array= array($status);
+    	
+    	if (trim(Input::get('search')) != ""){
+    			// there is a search key
+    			$search = "%" . Input::get('search') . "%";
+    			$tbds = Tbd::where('user_id', $id)
+    					->where('description',"LIKE", $search) 
+						->whereIn('done', $array)
+    					->orderBy('date', "DESC")
+    					->get();
+    	}
+    	else 
+    			$tbds = Tbd::where('user_id', $id)
+    			->whereIn('done', $array)
+    			->orderBy('date', "DESC")
+    			->get();
+    			
+    	return View::make('home.includes.tbd_table')
+    	->with('tbds', $tbds);
+    }
+    
+    public function postStatus()
+    {
+    	$id = Input::get('id');
+    	$tbd = Tbd::find($id);
+    	$tbd->done = !$tbd->done;
+    	$tbd->save();
+    
+    	return '';
+    	
+    }
+    
     
     public function postUpdate()
     {
         $validator = Tbd::validate(Input::all());
         $id = Input::get('id');
         if($validator->fails()){
-            return Redirect::route('tbd.update', array('id' => $id))
-                ->withErrors($validator)
-                ->withInput();
+            return $validator->messages()->toJson();
         } else {
             
             $tbd = Tbd::find($id);
-            $tbd->title = Input::get('tbd_title');
+            $tbd->date = Input::get('tbd_date');
             $tbd->description = Input::get('tbd_text');
             $tbd->save();
             
-            return Redirect::route('tbd.update', array('id' => $id))
-                ->with('message', 'Tbd \'' . $tbd->title . '\' successfully updated.');
+            $data = array('message'=>"To be done successfully updated!");
+        	return json_encode($data);
         }
     }
     
@@ -68,7 +97,7 @@ class TbdController extends BaseController
         $id = Input::get('id');
         $tbd = Tbd::find($id);
         $tbd->delete();
-        return Redirect::route('home')
-                ->with('message', 'Tbd \'' . $tbd->title . '\' successfully deleted.');
+       	$data = array('message'=>"To be done successfully deleted!");
+        return json_encode($data);
     }
 }

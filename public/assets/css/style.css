@@ -44,3 +44,8 @@ display: block;
 #ajax-loader {
   display: none;
 }
+
+.btn-group .btn{
+display: block;
+margin-bottom: 10px;
+	}

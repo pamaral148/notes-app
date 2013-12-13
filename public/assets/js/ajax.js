@@ -1,3 +1,5 @@
+
+//************NOTES*******************************
 function refreshNoteContent(){
          if ($("#search").val()!="") {
         	 var query = "?search="+$("#search").val();
@@ -26,7 +28,7 @@ $(document).on('click', '#addNote',function(){
     		type: 'post',
             data: serializedData,
             success: function(data){
-            	messages(data);
+            	messages(data, '#messages');
              },
             error: function() {
                 alert('Client DB is currently unavailable; please try again later.');
@@ -129,10 +131,6 @@ $(document).on('click', '.noteUpdate',function(){
 	});// ajax call
 });	// END update get note
 
-//$("#date").datepicker({
-//    format: 'yyyy-mm-dd'
-//});
-
 //GET update note 
 $(document).on('click', '.viewNote',function(){
 	// geting the id from table <tr> 
@@ -159,6 +157,162 @@ $(document).on('click', '.viewNote',function(){
 	});// ajax call
 });	// END update get note
 
+//************TBD*******************************
+
+
+function refreshTbdContent(){
+	$('#ajax-loader').show();
+	var status = $('#tbd').attr('data-status');
+	var search = $("#searchtbd").val()
+	if (search !="") {
+   	 var query = "?status=" +status + "&search="+search;
+    	$('#tbdTable').load('tbd/all/'+ query);
+    }
+    else
+    {
+    	var query = "?status=" +status;
+		$('#tbdTable').load('tbd/all'+ query);
+    }
+		$("#tbd_date").val('');
+		$("#tbd_text").val('');
+		$('#ajax-loader').hide();
+    
+}
+
+$(document).on('keyup', '#searchtbd',function(){
+	refreshTbdContent();
+});
+
+
+$(".datePicker" ).datepicker({
+    format: 'yyyy-mm-dd'
+});
+
+
+//add new tbd
+$(document).on('click', '#addtbd',function(){
+       	$('#ajax-loader').show();
+    	var $form = $('#tbdForm');
+        // let's select and cache all the fields
+        var $inputs = $form.find("input");
+        // serialize the data in the form
+        var serializedData = $form.serialize();
+    	$.ajax({
+    		url: 'tbd/create',
+    		type: 'post',
+            data: serializedData,
+            success: function(data){
+            	messages(data, "#messages");
+             },
+            error: function() {
+                alert('Client DB is currently unavailable; please try again later.');
+            },
+            complete: function () {
+            	
+            	refreshTbdContent();
+            	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+            }
+    	});// ajax call
+});	// END add note
+   
+//change status
+$(document).on('click', '.tbdStatus',function(){
+	var id = this.parentNode.parentNode.id;
+	$('#ajax-loader').show();
+	$.ajax({
+		url: 'tbd/status',
+		type: 'post',
+        data: {'id' : id},
+        
+        error: function() {
+            alert('Client DB is currently unavailable; please try again later.');
+        },
+        complete: function () {
+        	refreshTbdContent();
+        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+        }
+	});// ajax call
+});	// END change status
+	
+//change type tbd
+$(document).on('click', '.btn-group .btn',function(){
+	if ($(this).hasClass("active") == false){
+		$('.btn-group .btn').removeClass('active');
+		$(this).addClass('active');
+		
+		$('#tbd').attr('data-status', this.id);
+		refreshTbdContent();
+	}
+});	// END add note
+
+//change status
+$(document).on('click', '.tbdDelete',function(){
+	var id = this.parentNode.parentNode.id;
+	$('#ajax-loader').show();
+	$.ajax({
+		url: 'tbd/delete',
+		type: 'get',
+        data: {'id' : id},
+        success: function(data){
+        	messages(data, "#messages");
+         },
+        error: function() {
+            alert('Client DB is currently unavailable; please try again later.');
+        },
+        complete: function () {
+        	refreshTbdContent();
+        	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+        }
+	});// ajax call
+});	// END change status
+
+
+
+//GET update tbd 
+$(document).on('click', '.tbdUpdate',function(){
+	// geting the id from table <tr> 
+	var id = this.parentNode.parentNode.id;
+	//alert('fds');
+    var text = $(this).parent().prev().prev().text();
+    var date = $(this).parent().prev().prev().prev().text();
+    
+    $("#formTbdUpdate #tbd_date").val(date.trim());
+    $("#formTbdUpdate #tbd_text").val(text);
+    $("#editTbdModal").attr('data-info',id).modal('show');
+        	
+    
+});	// END update tbd
+
+//post update tbd
+$(document).on('click', '#updateTbd',function(){
+       	$('#ajax-loader').show();
+    	var $form = $('#formTbdUpdate');
+        // let's select and cache all the fields
+        var $inputs = $form.find("input");
+        // serialize the data in the form
+        var serializedData = $form.serialize();
+        var id = $("#editTbdModal").attr('data-info');
+    	$.ajax({
+    		url: 'tbd/update?id='+id,
+    		type: 'post',
+            data: serializedData,
+            success: function(data){
+            	messages(data);
+             },
+            error: function() {
+                alert('Client DB is currently unavailable; please try again later.');
+            },
+            complete: function () {
+            	
+            	refreshTbdContent();
+            	// messages will take care of the error messages and validation messages also if responsible for closing the #modal            	
+            }
+    	});// ajax call
+});	// END add note
+
+
+
+
 
 
 
@@ -169,7 +323,9 @@ function AutoClosingAlert() {
 }// END function to autoclose the alerts 
 
 
- function messages(data){
+ function messages(data, idName){
+	 
+	 idName = idName || '.mod-err';
 	 $(".alert").alert('close');
  	data = $.parseJSON(data);
  	if (data.hasOwnProperty('message'))
@@ -196,8 +352,9 @@ function AutoClosingAlert() {
  		mess +=	"</ul>";
    		mess += "</div>";
    		
-   		$('.mod-err').html(mess);
+   		$(idName).html(mess);
    		AutoClosingAlert();
+   		$('#ajax-loader').hide();
    		return false;
  	}
  	

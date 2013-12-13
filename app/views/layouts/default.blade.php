@@ -30,23 +30,6 @@
             <header>
 	            <h1 class ="pull-left">2920 Notes App</h1>
             
-<!--             <div class="navbar navbar-default" role="navigation"> -->
-                <!-- Brand and toggle get grouped for better mobile display -->
-<!--                 <div class="navbar-header"> -->
-<!--                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> -->
-<!--                         <span class="sr-only">Toggle navigation</span> -->
-<!--                         <span class="icon-bar"></span> -->
-<!--                         <span class="icon-bar"></span> -->
-<!--                         <span class="icon-bar"></span> -->
-<!--                     </button> -->
-<!--                     <a class="navbar-brand" href="{{ URL::route('home') }}">2920 Notes App</a> -->
-<!--                 </div> -->
-                <!-- Collect the nav links, forms, and other content for toggling -->
-<!--                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
-<!--                     <ul class="nav navbar-nav"> -->
-<!--                         <li class="active">{{ link_to_route('home', 'Home') }}</li> -->
-                        
-<!--                     </ul> -->
 					<br />
                     <ul class="nav navbar-nav navbar-right">
                         <li class = "lead">

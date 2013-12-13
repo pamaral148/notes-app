@@ -17,4 +17,7 @@
             @endforeach
         </tbody>
     </table>    
+    @if (!isset($note))
+    	<p class = 'lead'>You don't have any notes!</p>
+    @endif
  

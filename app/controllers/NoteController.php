@@ -45,7 +45,7 @@ class NoteController extends BaseController
         $validator = Note::validate(Input::all());
         
         if($validator->fails()){
-            return $validation->messages()->toJson();
+            return $validator->messages()->toJson();
         } else {
             $note = new Note();
             $note->description = Input::get('text');
@@ -62,11 +62,10 @@ class NoteController extends BaseController
         $validator = Note::validate(Input::all());
         $id = Input::get('id');
         if($validator->fails()){
-            return $validation->messages()->toJson();
+            return $validator->messages()->toJson();
         } else {
             
             $note = Note::find($id);
-            $note->title = Input::get('title');
             $note->description = Input::get('text');
             $note->save();
             

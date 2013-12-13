@@ -139,16 +139,19 @@ Route::group(array('prefix' => 'links'), function() {
 // Tbd routes
 Route::group(array('prefix' => 'tbd'), function() {
 
-    // POST new note
+    // POST new tbd
     Route::post('create', array('before' => 'csrf', 'uses' => 'TbdController@postAdd'));
     
-    // GET update
-    Route::get('update', array('as' => 'tbd.update', 'before' => 'auth', 'uses' => 'TbdController@getTbd'));
+    // GET all tbd
+    Route::get('all', array('before' => 'auth', 'uses' => 'TbdController@getAll'));
+    
+    // POST update
+    Route::post('status', array('uses' => 'TbdController@postStatus'));
     
     // POST update
     Route::post('update', array('before' => 'csrf', 'uses' => 'TbdController@postUpdate'));
     
     // GET delete tbd
-    Route::get('delete', array('as' => 'tbd.delete', 'before', 'auth', 'uses' => 'TbdController@deleteTbd'));
+    Route::get('delete', array('before'  => 'auth', 'uses' => 'TbdController@deleteTbd'));
     
 });

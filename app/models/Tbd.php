@@ -14,7 +14,7 @@
 class Tbd extends Eloquent 
 {
     public static $rules = array(
-        'tbd_title' => 'required|between:3,45',
+        'tbd_date' => 'required|date_format:Y-m-d',
         'tbd_text' => 'required|between:3,255'
     );
     
