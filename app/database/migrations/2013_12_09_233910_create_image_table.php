@@ -16,8 +16,7 @@ class CreateImageTable extends Migration {
 		{
 			$table->increments('id');
                         $table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users');
-                        $table->text('caption', 45);
+						$table->foreign('user_id')->references('id')->on('users');
                         $table->text('mime', 45);
                         $table->text('extension', 45);
                         $table->binary('contents');

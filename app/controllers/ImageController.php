@@ -30,7 +30,7 @@ class ImageController extends BaseController
              }
             $image = new Image();
             $image->user_id = $user_id;
-            $image->caption = '  ';
+           
             $image->extension = Input::file('image')->getClientOriginalExtension();
             $image->contents = file_get_contents(Input::file('image'));
             $image->mime = Input::file('image')->getMimeType();
