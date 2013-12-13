@@ -1,14 +1,16 @@
-<div class='form-container pull-left' id=notes-container'>
+<div class='col-md-10' id=notes-container'>
     {{ Form::open(array('url' => 'tbd/create', 'method' => 'post', 'role' => 'form')) }}
     <div class="form-group">    
-        <label class="sr-only" for="title">TBD Title</label>
-        {{ Form::text('tbd_title', Input::old('tbd_title'), array('placeholder' => 'TBD Title' , 'class' => 'form-control', 'id' => 'tbd_title' )) }}
-    </div>
-    <div class="form-group">    
+        <label class="sr-only" for="date">Date</label>
+        {{ Form::text('tbd_date', Input::old('tbd_date'), array('placeholder' => 'YYYY-MM-DD' , 'class' => 'form-control', 'id' => 'tbd_date' )) }}
         <label class="sr-only" for="text">Note Text</label>
         {{ Form::textarea('tbd_text', Input::old('tbd_text'), array('placeholder' => 'TBD Text' , 'class' => 'form-control', 'id' => 'tbd_text' )) }}
+    	<button id="addtbd" type="button" class="btn btn-primary btn">Add</button>    
+    
     </div>
-    {{ Form::submit('Add Tbd') }}
+    <div class="form-group">    
+    </div>
+    
     {{ Form::close() }}
 </div>
 

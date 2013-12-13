@@ -15,7 +15,9 @@
         <br>
         @include('home.includes.notes_post')
        <input type="text" name="search" id="search" class="form-control" placeholder="Search">
-       <div id="notesTable" class='container pull-right'>
+
+       <div id="notesTable" class='col-md-5'>
+
          	 @include('home.includes.notes_table')
        </div>
     </div>

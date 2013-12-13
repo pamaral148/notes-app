@@ -1,4 +1,6 @@
-<div class='container pull-left' id= "notes-container">
+
+<div class='col-md-7' id= "notes-container">
+
     {{ Form::open(array('url' => 'notes/create', 'method' => 'post', 'role' => 'form', 'id' => 'noteForm')) }}
   
     <div class="form-group">    
